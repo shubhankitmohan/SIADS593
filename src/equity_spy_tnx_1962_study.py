@@ -43,8 +43,8 @@ def plot_correlation_vs_yield(weekly_data, correlation, bond_ticker, equity_tick
     plt.figure(figsize=(12, 6))
 
     # Scatter plot
-    plt.scatter(aligned_tnx, aligned_correlation, alpha=0.45, color="blue", label="Correlation Data")
-    plt.axvline(5, color='red', linestyle='--', label='4.5% Yield Threshold')
+    plt.scatter(aligned_tnx, aligned_correlation, alpha=.5, color="blue", label="Correlation Data")
+    plt.axvline(5, color='red', linestyle='--', label='5% Yield Threshold')
 
     # Fit and plot trend line
     z = np.polyfit(aligned_tnx, aligned_correlation, 1)
