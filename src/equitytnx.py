@@ -43,7 +43,7 @@ def plot_correlation_vs_yield(data, correlation, bond_ticker, equity_ticker):
 if __name__ == "__main__":
     # Define parameters
     tickers = ["^TNX", "SPY"]
-    start_date = "1962-01-01"
+    start_date = "1990-01-01"
     end_date = "2025-01-01"
 
     # Fetch data
