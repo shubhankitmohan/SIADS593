@@ -37,6 +37,38 @@ def calculate_three_month_correlation(data, spy_ticker, tnx_ticker, window=3):
     return three_month_data, correlation.dropna()
 
 
+# Generate and save scatter plot
+def plot_scatter(three_month_data, correlation, save_path="plot/scatter_plot.png"):
+    common_index = three_month_data.index.intersection(correlation.index)
+    interest_rate = three_month_data.loc[common_index, "^TNX"]
+    correlation_values = correlation.loc[common_index]
+
+    plt.figure(figsize=(12, 6))
+    plt.scatter(interest_rate, correlation_values, alpha=0.5, color="blue", label="Correlation Data")
+    plt.axvline(3, color='red', linestyle='--', label='3% Yield Threshold')
+
+    # Highlight the red quadrant (Interest >= 3% & Negative Correlation)
+    plt.axhline(0, color='gray', linestyle='--')
+    plt.fill_betweenx([-1, 0], 3, max(interest_rate), color='none', edgecolor='red', linewidth=2,
+                      label='High Interest & Negative Correlation')
+
+    # Fit and plot trend line
+    z = np.polyfit(interest_rate, correlation_values, 1)
+    p = np.poly1d(z)
+    plt.plot(interest_rate, p(interest_rate), color="orange", linewidth=2, label="Trend Line")
+
+    plt.title("Correlation Between TNX and SPY Changes (3-Month Rolling Window)")
+    plt.xlabel("TNX (%)")
+    plt.ylabel("Rolling Correlation")
+    plt.legend()
+    plt.grid(alpha=0.3)
+
+    # Save the plot
+    plt.savefig(save_path, dpi=300, bbox_inches="tight")
+    print(f"Scatter plot saved to {save_path}")
+    plt.show()
+
+
 # Generate and save heatmap
 def plot_heatmap(three_month_data, correlation, save_path="plot/heatmap.png"):
     # Ensure alignment of actual and predicted data
@@ -86,6 +118,9 @@ if __name__ == "__main__":
 
     # Calculate 3-month rolling correlation (3-month window)
     three_month_data, correlation = calculate_three_month_correlation(data, "SPY", "^TNX", window=3)
+
+    # Plot scatter plot
+    plot_scatter(three_month_data, correlation, "plot/scatter_plot.png")
 
     # Plot heatmap
     plot_heatmap(three_month_data, correlation, "plot/heatmap.png")
