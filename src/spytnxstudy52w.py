@@ -95,7 +95,7 @@ def plot_heatmap(three_month_data, correlation, save_path="plot/heatmap.png"):
     plt.figure(figsize=(6, 6))
     sns.heatmap(heatmap_data, annot=True, fmt="d", cmap="Blues",
                 xticklabels=["Positive Correlation", "Negative Correlation"], yticklabels=labels)
-    plt.title("Heatmap: Interest Rate vs Correlation")
+    plt.title("Heatmap: Interest Rate vs SPY Correlation")
 
     # Save and show the plot
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
