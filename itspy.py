@@ -52,10 +52,13 @@ event_dates = {event: (pd.to_datetime(date), offset) for event, (date, offset) i
 fig, ax1 = plt.subplots(figsize=(14, 7))
 
 # Plot S&P 500 (smoothed for pre-2020, exact for post-2020)
-ax1.plot(merged_data['Date'], merged_data['SP500 Smoothed'], color='black', label='S&P 500 Index (Smoothed Pre-2020, Exact Post-2020)', linewidth=2)
+ax1.plot(merged_data['Date'], merged_data['SP500 Smoothed'], color='black', label='S&P 500 Index (till 2023)', linewidth=2)
 ax1.set_xlabel('Year')
 ax1.set_ylabel('S&P 500 Index', color='black')
 ax1.tick_params(axis='y', labelcolor='black')
+
+# Ensure 6000 is labeled on the y-axis
+ax1.set_yticks(np.arange(0, 6000, 1000))  # Labels every 1000 up to 6000
 
 # Create a second y-axis for the Federal Funds Rate
 ax2 = ax1.twinx()
@@ -75,6 +78,9 @@ plt.title('S&P 500 Index vs. Federal Funds Effective Rate with Key Events')
 fig.tight_layout()
 ax1.legend(loc='upper left')
 ax2.legend(loc='upper right')
+
+# Save plot as PNG
+plt.savefig("sp500_vs_fedfunds.png", dpi=300, bbox_inches="tight")
 
 # Show plot
 plt.show()
